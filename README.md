@@ -5,14 +5,15 @@ Brief foray into Trump Tariff data, blog post coming soon with more data.
 ## Usage 
 
 ```bash
-pip install pypdf pandas
+pip install pypdf
 python main.py
 ```
 
-## Results(2019 Data)
-Enter the total import value from China (in dollars): 2070
+## Results(2019 Data USTR)
 
 ```
+Enter the total import value from China (in dollars): 2070
+
 Original Average Tariff Rate: 20.62%
 Original Weighted Average Tariff Rate: 4.11%
 
