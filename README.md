@@ -33,6 +33,7 @@ Simulated Expected Tax Revenue (after adding 10%): $292.00
 
 ## Results(2018 Data USTR)
 27 Nov Version
+
 Total consumption is only durable goods, PCE also includes other things which aren't goods. Goods are from various sources including but not limited to USTR. Measured in billions of USD. 5% is subtracted because usually producers will eat some of the costs to stay competitive.
 
 ### Status Quo
@@ -52,7 +53,7 @@ Net Inflation Impact: 0.85%
 Total Expected Tax Revenue: $84.31
 ```
 
-## Trump Tariffs Plan Circa Nov 2024 
+### Trump Tariffs Plan Circa Nov 2024 
 ```
 Enter the total import value from China (in dollars): 540
 Enter the total import value from Canada (in dollars): 326
