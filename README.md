@@ -109,3 +109,7 @@ Net Inflation Impact: 2.67%
 
 Total Expected Tax Revenue: $308.48
 ```
+
+
+## Improvement Ideas
+Weight each country differently since china and mexico don't ship the same exact TYPES of goods.
