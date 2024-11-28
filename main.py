@@ -21,6 +21,9 @@ mexico_data = {
     "MEXICO.ALL": {"rate": 25, "value": 0},  # Value to be set based on user input
 }
 
+# Weight of durable goods in CPI
+durable_goods_weight = 0.12454  # 20%
+
 def extract_tariff_data(pdf_path, country, total_import_value):
     """
     Extract subchapter codes and their frequencies from the PDF for China.
@@ -104,12 +107,19 @@ def calculate_expected_tax_revenue(weighted_average_rate, total_import_value):
     """
     return (weighted_average_rate / 100) * total_import_value
 
-def calculate_inflation_impact(tariff_contribution, total_consumption, price_decrease):
+def calculate_inflation_impact(tariff_contribution, total_consumption, price_decrease, durable_goods_weight):
     """
-    Calculate the net inflation impact considering tariff contribution and price decrease.
+    Calculate the net inflation impact considering tariff contribution and price decrease,
+    adjusted by the weight of durable goods in CPI.
     """
-    inflation_impact = (tariff_contribution / total_consumption) * 100
-    net_inflation_impact = inflation_impact - price_decrease
+    # Calculate inflation impact from tariffs
+    tariff_inflation = (tariff_contribution / total_consumption) * 100
+    
+    # Adjust inflation impact based on durable goods weight
+    adjusted_inflation = tariff_inflation * durable_goods_weight
+    
+    # Calculate net inflation impact with price decrease
+    net_inflation_impact = adjusted_inflation - price_decrease
     return net_inflation_impact
 
 def main():
@@ -170,8 +180,7 @@ def main():
     tariff_contribution = calculate_expected_tax_revenue(weighted_average_rate, total_import_value)
     
     # Calculate net inflation impact with an assumed price decrease of 5%
-    price_decrease = 5.0
-    net_inflation_impact = calculate_inflation_impact(tariff_contribution, total_consumption, price_decrease)
+    net_inflation_impact = calculate_inflation_impact(tariff_contribution, total_consumption, price_decrease, durable_goods_weight)
     print(f"\nNet Inflation Impact: {net_inflation_impact:.2f}%")
     
     # Calculate expected tax revenue
