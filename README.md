@@ -110,6 +110,51 @@ Net Inflation Impact: 2.67%
 Total Expected Tax Revenue: $308.48
 ```
 
+## Results(2018 Data USTR)
+28 Nov Version Updated 15:14 PST
+
+I changed it to be profiled based on the goods that align with the country in the CPI. I had deepseek help me find this list. This is slightly more accruate in principle but for mexico and canada not all goods mentioned are exclusive to them. 
+
+When finding the values the code no longer needs to be updated with the rate increases as they are asked.
+
+The only issue is that it somewhat underrepresnts the issue from these tariffs. This assumes everything domestic has no ties with china, that china won't fight back etc. It doesn't get the point accross but this is the truth. 
+
+I decide to have both methods, one assumes only these goods will go up and one assumes the whole catagory will. The real result will be somewhere in between.
+
+### Status Quo
+```
+Enter the total import value from China (in dollars): 540
+Enter the total import value from Canada (in dollars): 326
+Enter the total import value from Mexico (in dollars): 358
+Enter the tariff rate for Canada (as a decimal, e.g., 0.10 for 10%): 0
+Enter the tariff rate for Mexico (as a decimal, e.g., 0.10 for 10%): 0
+Enter the extra tariff rate for China (as a decimal, e.g., 0.05 for 5%): 0
+Enter the total consumption value from USA (in dollars): 14000
+
+Extra CPI (Value Adjusted): 1.0137
+
+Extra CPI (Weight Adjusted): 1.0060
+```
+
+### Trump Tariffs Plan Circa Nov 2024 
+```
+Enter the total import value from China (in dollars): 540
+Enter the total import value from Canada (in dollars): 325
+Enter the total import value from Mexico (in dollars): 358
+Enter the tariff rate for Canada (as a decimal, e.g., 0.10 for 10%): 25
+Tariff rate must be between 0 and 1.
+Enter the tariff rate for Canada (as a decimal, e.g., 0.10 for 10%): 0.25
+Enter the tariff rate for Mexico (as a decimal, e.g., 0.10 for 10%): 0.25
+Enter the extra tariff rate for China (as a decimal, e.g., 0.05 for 5%): 0.1
+Enter the total consumption value from USA (in dollars): 14000
+
+Extra CPI (Value Adjusted): 1.0788
+
+Extra CPI (Weight Adjusted): 1.0220
+```
+
+
 
 ## Improvement Ideas
 Weight each country differently since china and mexico don't ship the same exact TYPES of goods.
+Some specific catagories will be hit harder than others so just saying aggregete inflation is x% is not of much use.
