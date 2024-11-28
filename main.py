@@ -6,19 +6,19 @@ subchapter_pattern = re.compile(r'^\d{4}\.\d{2}\.\d{2}')
 
 # Subchapter data for China
 subchapter_data = {
-    "9903.88.01": {"rate": 35, "value": 34},
-    "9903.88.15": {"rate": 17.5, "value": 300},
-    "9903.88.04": {"rate": 35, "value": 200},
-    "9903.88.03": {"rate": 35, "value": 16},
+    "9903.88.01": {"rate": 25, "value": 34},
+    "9903.88.15": {"rate": 7.5, "value": 300},
+    "9903.88.04": {"rate": 25, "value": 200},
+    "9903.88.03": {"rate": 25, "value": 16},
 }
 
 # Placeholder codes for Canada and Mexico with flat tariff rates
 canada_data = {
-    "CANADA.ALL": {"rate": 25, "value": 0},  # Value to be set based on user input
+    "CANADA.ALL": {"rate": 0, "value": 0},  # Value to be set based on user input
 }
 
 mexico_data = {
-    "MEXICO.ALL": {"rate": 25, "value": 0},  # Value to be set based on user input
+    "MEXICO.ALL": {"rate": 0, "value": 0},  # Value to be set based on user input
 }
 
 # Weight of durable goods in CPI
@@ -179,7 +179,9 @@ def main():
     # Calculate tariff contribution
     tariff_contribution = calculate_expected_tax_revenue(weighted_average_rate, total_import_value)
     
-    # Calculate net inflation impact with an assumed price decrease of 5%
+    # Calculate net inflation impact with an assumed price decrease of 0%
+    
+    price_decrease = 0
     net_inflation_impact = calculate_inflation_impact(tariff_contribution, total_consumption, price_decrease, durable_goods_weight)
     print(f"\nNet Inflation Impact: {net_inflation_impact:.2f}%")
     
