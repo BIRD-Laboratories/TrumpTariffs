@@ -21,8 +21,12 @@ mexico_data = {
     "MEXICO.ALL": {"rate": 0, "value": 0},  # Value to be set based on user input
 }
 
-# Weight of durable goods in CPI
-durable_goods_weight = 0.12454  # 20%
+# Define impact factors for each country on CPI
+country_cpi_impact = {
+    "China": 0.0886,  
+    "Canada": 0.02851,
+    "Mexico": 0.19648, 
+}
 
 def extract_tariff_data(pdf_path, country, total_import_value):
     """
@@ -107,19 +111,18 @@ def calculate_expected_tax_revenue(weighted_average_rate, total_import_value):
     """
     return (weighted_average_rate / 100) * total_import_value
 
-def calculate_inflation_impact(tariff_contribution, total_consumption, price_decrease, durable_goods_weight):
+def calculate_inflation_impact(tariff_contribution, total_consumption, price_decrease):
     """
-    Calculate the net inflation impact considering tariff contribution and price decrease,
-    adjusted by the weight of durable goods in CPI.
+    Calculate the net inflation impact considering tariff contribution and price decrease.
     """
-    # Calculate inflation impact from tariffs
-    tariff_inflation = (tariff_contribution / total_consumption) * 100
-    
-    # Adjust inflation impact based on durable goods weight
-    adjusted_inflation = tariff_inflation * durable_goods_weight
+    # Calculate inflation impact from tariffs for each country
+    inflation_impact = 0
+    for country, impact in country_cpi_impact.items():
+        country_tariff_contribution = tariff_contribution.get(country, 0)
+        inflation_impact += (country_tariff_contribution / total_consumption) * 100 * impact
     
     # Calculate net inflation impact with price decrease
-    net_inflation_impact = adjusted_inflation - price_decrease
+    net_inflation_impact = inflation_impact - price_decrease
     return net_inflation_impact
 
 def main():
@@ -176,13 +179,15 @@ def main():
     weighted_average_rate_china = calculate_weighted_average_tariff_rate(subchapter_data, total_import_value_china)
     print(f"Weighted Average Tariff Rate (China Only): {weighted_average_rate_china:.2f}%")
     
-    # Calculate tariff contribution
-    tariff_contribution = calculate_expected_tax_revenue(weighted_average_rate, total_import_value)
+    # Calculate tariff contribution per country
+    tariff_contribution = {}
+    tariff_contribution["China"] = calculate_expected_tax_revenue(weighted_average_rate_china, total_import_value_china)
+    tariff_contribution["Canada"] = calculate_expected_tax_revenue(canada_data["CANADA.ALL"]["rate"], total_import_value_canada)
+    tariff_contribution["Mexico"] = calculate_expected_tax_revenue(mexico_data["MEXICO.ALL"]["rate"], total_import_value_mexico)
     
     # Calculate net inflation impact with an assumed price decrease of 0%
-    
     price_decrease = 0
-    net_inflation_impact = calculate_inflation_impact(tariff_contribution, total_consumption, price_decrease, durable_goods_weight)
+    net_inflation_impact = calculate_inflation_impact(tariff_contribution, total_consumption, price_decrease)
     print(f"\nNet Inflation Impact: {net_inflation_impact:.2f}%")
     
     # Calculate expected tax revenue
