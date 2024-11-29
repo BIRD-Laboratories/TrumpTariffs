@@ -157,4 +157,7 @@ Extra CPI (Weight Adjusted): 1.0220
 
 ## Improvement Ideas
 Weight each country differently since china and mexico don't ship the same exact TYPES of goods.
+
 Some specific catagories will be hit harder than others so just saying aggregete inflation is x% is not of much use.
+
+Add taxes and percentage of income tax it will pay back to the calcuations
