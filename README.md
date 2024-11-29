@@ -1,6 +1,7 @@
 # TrumpTariffs
 
-Brief foray into Trump Tariff data, blog post coming soon with more data. Proper citations soon as well.
+Brief foray into Trump Tariff data.
+https://birdlsino-trumptariffs.static.hf.space
 
 ## Usage 
 
