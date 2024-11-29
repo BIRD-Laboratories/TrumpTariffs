@@ -1,8 +1,4 @@
 import re
-from pypdf import PdfReader
-
-# Define the pattern for subchapter codes
-subchapter_pattern = re.compile(r'^\d{4}\.\d{2}\.\d{2}')
 
 # Subchapter data for China with rates in decimal
 subchapter_data = {
@@ -27,39 +23,6 @@ country_cpi_impact = {
     "Mexico": 0.02851,  # Impact factor on CPI
     "Canada": 0.19648,  # Impact factor on CPI
 }
-
-def extract_tariff_data(pdf_path, country, total_import_value):
-    """
-    Extract subchapter codes and their frequencies from the PDF for China.
-    """
-    code_frequency = {}
-    if country.lower() != "china":
-        return code_frequency
-    try:
-        reader = PdfReader(pdf_path)
-        text = ""
-        for page in reader.pages:
-            text += page.extract_text() + "\n"
-    except Exception as e:
-        print(f"Error reading PDF: {e}")
-        return code_frequency
-    
-    lines = text.split("\n")
-    
-    for line in lines:
-        line = line.strip()
-        if not line:
-            continue
-        parts = line.split(' ', 1)
-        if len(parts) >= 2:
-            subheading = parts[0]
-            code = parts[1]
-            if code in subchapter_data:
-                if code in code_frequency:
-                    code_frequency[code] += 1
-                else:
-                    code_frequency[code] = 1
-    return code_frequency
 
 def calculate_weighted_average_tariff_rate(data, total_import_value):
     """
@@ -95,6 +58,12 @@ def get_input(country, input_type):
                     return rate
                 else:
                     print("Tariff rate must be between 0 and 1.")
+            elif input_type == 'tax_revenue':
+                value = float(input(f"Enter the total income tax revenue (in dollars): "))
+                if value < 0:
+                    print("Income tax revenue cannot be negative.")
+                else:
+                    return value
             else:
                 print("Invalid input type.")
                 return None
@@ -136,9 +105,6 @@ def calculate_extra_cpi_weight_adjusted(proportion_china, proportion_canada, pro
     return extra_cpi_rate
 
 def main():
-    # Paths to PDF files for China
-    pdf_path_china = 'tariff_table_china.pdf'
-    
     # Get total import values for each country
     total_import_value_china = get_input("China", 'import_value')
     total_import_value_canada = get_input("Canada", 'import_value')
@@ -167,9 +133,6 @@ def main():
     canada_data["CANADA.ALL"]["value"] = total_import_value_canada
     mexico_data["MEXICO.ALL"]["value"] = total_import_value_mexico
     
-    # Extract tariff data for China
-    code_frequency_china = extract_tariff_data(pdf_path_china, "China", total_import_value_china)
-    
     # Calculate weighted tariff rate for China
     weighted_tariff_rate_china = calculate_weighted_average_tariff_rate(subchapter_data, total_import_value_china)
     
@@ -185,6 +148,9 @@ def main():
     canada_n = country_cpi_impact["Canada"]
     mexico_n = country_cpi_impact["Mexico"]
     
+    # Get Income Tax Revenue from User
+    income_tax_revenue = get_input("USA", 'tax_revenue')
+
     # Calculate proportions for weight-adjusted version
     proportion_china = total_import_value_china / total_consumption
     proportion_canada = total_import_value_canada / total_consumption
@@ -198,7 +164,20 @@ def main():
     extra_cpi_weight_adjusted = calculate_extra_cpi_weight_adjusted(proportion_china, proportion_canada, proportion_mexico, weighted_tariff_rate_china, weighted_tariff_rate_canada, weighted_tariff_rate_mexico)
     print(f"\nExtra CPI (Weight Adjusted): {extra_cpi_weight_adjusted:.4f}")
     
-    # Additional calculations and outputs can be added here if needed
+    # Calculate Tariff Revenue for Each Country
+    tariff_revenue_china = weighted_tariff_rate_china * total_import_value_china
+    tariff_revenue_canada = canada_data["CANADA.ALL"]["rate"] * total_import_value_canada
+    tariff_revenue_mexico = mexico_data["MEXICO.ALL"]["rate"] * total_import_value_mexico
+    
+    # Calculate Total Tariff Revenue
+    total_tariff_revenue = tariff_revenue_china + tariff_revenue_canada + tariff_revenue_mexico
+    
+    # Calculate Percentage of Tariff Revenue Relative to Income Tax Revenue
+    percentage = (total_tariff_revenue / income_tax_revenue) * 100 if income_tax_revenue != 0 else 0
+    
+    # Output the Results
+    print(f"\nTotal Tariff Revenue: ${total_tariff_revenue:.2f}")
+    print(f"Percentage of Tariff Revenue relative to Income Tax Revenue: {percentage:.2f}%")
 
 if __name__ == '__main__':
     main()
