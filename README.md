@@ -153,7 +153,48 @@ Extra CPI (Value Adjusted): 1.0788
 Extra CPI (Weight Adjusted): 1.0220
 ```
 
+## Results(2018 Data USTR)
+29 Nov Version
 
+To elimate income tax we'll either have to take a crazy deficit, hope DOGE actually works, or Trump Admin will not be able to cut as much as they wanted to.
+
+### Status Quo
+```
+Enter the total consumption value from China (in dollars): 540
+Enter the total consumption value from Canada (in dollars): 326
+Enter the total consumption value from Mexico (in dollars): 358
+Enter the tariff rate for Canada (as a decimal, e.g., 0.10 for 10%): 0
+Enter the tariff rate for Mexico (as a decimal, e.g., 0.10 for 10%): 0
+Enter the extra tariff rate for China (as a decimal, e.g., 0.05 for 5%): 0
+Enter the total consumption value from USA (in dollars): 14000
+Enter the total income tax revenue (in dollars): 1684
+
+Extra CPI (Value Adjusted): 1.0137
+
+Extra CPI (Weight Adjusted): 1.0060
+
+Total Tariff Revenue: $83.45
+Percentage of Tariff Revenue relative to Income Tax Revenue: 4.96%
+```
+
+### Trump Tariffs Plan Circa Nov 2024 
+```
+Enter the total consumption value from China (in dollars): 540
+Enter the total consumption value from Canada (in dollars): 326
+Enter the total consumption value from Mexico (in dollars): 358
+Enter the tariff rate for Canada (as a decimal, e.g., 0.10 for 10%): 0.25
+Enter the tariff rate for Mexico (as a decimal, e.g., 0.10 for 10%): 0.25
+Enter the extra tariff rate for China (as a decimal, e.g., 0.05 for 5%): 0.1
+Enter the total consumption value from USA (in dollars): 14000
+Enter the total income tax revenue (in dollars): 1684
+
+Extra CPI (Value Adjusted): 1.0788
+
+Extra CPI (Weight Adjusted): 1.0220
+
+Total Tariff Revenue: $308.45
+Percentage of Tariff Revenue relative to Income Tax Revenue: 18.32%
+```
 
 ## Improvement Ideas
 Weight each country differently since china and mexico don't ship the same exact TYPES of goods.
